@@ -39,3 +39,19 @@ Thumbs.db
 *.log #log files, for some plugins
 *.pyc #python bytecode cache, for some plugins.
 sysinfo.txt #Unity3D Generated File On Crash Reports
+
+# ================= #
+# for AndroidStudio #
+# ================= #
+*.iml
+
+Android/Export/*
+!Android/Export/_emptyfolder.txt
+
+Android/App/.gradle
+Android/App/.idea
+Android/App/local.properties
+Android/App/build
+
+Android/App/app/*
+!Android/App/app/build.gradle
