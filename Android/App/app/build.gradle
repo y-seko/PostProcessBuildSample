@@ -16,8 +16,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-}
 
+    sourceSets {
+        main {
+            manifest.srcFile '../../Export/SampleApp/AndroidManifest.xml'
+            java.srcDirs = ['../../Export/SampleApp/src']
+            res.srcDirs = ['../../Export/SampleApp/res']
+            assets.srcDirs = ['../../Export/SampleApp/assets']
+            jniLibs.srcDirs = ['../../Export/SampleApp/libs']
+        }
+    }
+}
 dependencies {
-    compile files('libs/unity-classes.jar')
+    compile files('../../Export/SampleApp/libs/unity-classes.jar')
 }
