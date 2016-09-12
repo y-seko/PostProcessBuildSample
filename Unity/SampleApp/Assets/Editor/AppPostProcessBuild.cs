@@ -9,27 +9,31 @@ public class AppPostProcessBuild {
 		Debug.Log ("OnPostprocessBuild : " + path);
 
 		var rootPath = "";
+		var platformPath = "";
 
 		if (target == BuildTarget.Android) {
-			rootPath = path.Replace ("/Export", "");
+			rootPath = path.Replace ("/Android/Export", "");
+			platformPath = rootPath + "/Android";
 		}
 		else if (target == BuildTarget.iOS) {
-			rootPath = path.Replace ("/Export/SampleApp", "");
+			rootPath = path.Replace ("/iOS/Export/SampleApp", "");
+			platformPath = rootPath + "/iOS";
 		}
 
-		RunBuildScript (rootPath);
+		RunBuildScript (rootPath, platformPath);
 	}
 
 	/// <summary>
 	/// ビルドスクリプトを実行する
 	/// </summary>
 	/// <param name="rootPath">Root path.</param>
-	private static void RunBuildScript(string rootPath) {
+	private static void RunBuildScript(string rootPath, string platformPath) {
 		var appName = PlayerSettings.productName;
-		var scriptPath = rootPath + "/Script";
+		var commonScriptPath = rootPath + "/Script";
+		var platformScriptPath = platformPath + "/Script";
 		var commands = new string[] {
-			"cd " + scriptPath,
-			"sh build.sh " + rootPath + " " + appName,
+			"cd " + platformScriptPath,
+			"sh build.sh " + platformPath + " " + appName,
 		};
 
 		// Terminalを起動してシェルスクリプトを実行する
@@ -42,7 +46,7 @@ public class AppPostProcessBuild {
 		// [memo]
 		//  LaunchTerminalWithCommand.scpt
 		//  ターミナルを起動してコマンドを実行するAppleScript（何故か直接ターミナルを起動できないので書いた）
-		process.StartInfo.Arguments = scriptPath + "/LaunchTerminalWithCommand.scpt " + CatTarminalCommands(commands);
+		process.StartInfo.Arguments = commonScriptPath + "/LaunchTerminalWithCommand.scpt " + CatTarminalCommands(commands);
 		process.Start ();
 
 		// 終了を待つ
