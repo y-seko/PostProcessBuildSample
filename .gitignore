@@ -45,20 +45,20 @@ sysinfo.txt #Unity3D Generated File On Crash Reports
 # ================= #
 *.iml
 
-Android/Export/*
-!Android/Export/_emptyfolder.txt
+Native/Android/Export/*
+!Native/Android/Export/_emptyfolder.txt
 
-Android/App/.gradle
-Android/App/.idea
-Android/App/local.properties
-Android/App/build
+Native/Android/App/.gradle
+Native/Android/App/.idea
+Native/Android/App/local.properties
+Native/Android/App/build
 
-Android/App/app/*
-!Android/App/app/build.gradle
+Native/Android/App/app/*
+!Native/Android/App/app/build.gradle
 
 # ========= #
 # for Xcode #
 # ========= #
-iOS/Export/*
-!iOS/Export/_emptyfolder.txt
-iOS/Output
+Native/iOS/Export/*
+!Native/iOS/Export/_emptyfolder.txt
+Native/iOS/Output

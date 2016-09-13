@@ -1,7 +1,8 @@
 #!/bin/sh
 ROOT_PATH=$1
+APP_NAME=$2
 
-MANIFEST_PATH=$ROOT_PATH"/Export/SampleApp"
+MANIFEST_PATH=$ROOT_PATH"/Export/"$APP_NAME
 GRADLE_PATH=$ROOT_PATH"/App"
 
 # AndroidManifest.xmlを修正する
