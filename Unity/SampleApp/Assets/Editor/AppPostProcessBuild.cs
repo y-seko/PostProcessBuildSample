@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AppPostProcessBuild {
 	[PostProcessBuild]
@@ -10,30 +11,41 @@ public class AppPostProcessBuild {
 
 		var rootPath = "";
 		var platformPath = "";
+		var args = "";
 
 		if (target == BuildTarget.Android) {
 			rootPath = path.Replace ("/Android/Export", "");
 			platformPath = rootPath + "/Android";
+			args = CatArguments (new Dictionary<string, string> () {
+				{"rootPath", platformPath},
+				{"appName", PlayerSettings.productName},
+			});
 		}
 		else if (target == BuildTarget.iOS) {
 			rootPath = path.Replace ("/iOS/Export/SampleApp", "");
 			platformPath = rootPath + "/iOS";
+			args = CatArguments (new Dictionary<string, string> () {
+				{"rootPath", platformPath},
+				{"appName", PlayerSettings.productName},
+				{"codeSignIdentity", "XXXXXXXX"},
+				{"profileId", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"},
+				{"profileName", "xxxxxxxxxxxxxxx"},
+			});
 		}
 
-		RunBuildScript (rootPath, platformPath);
+		RunBuildScript (rootPath, platformPath, args);
 	}
 
 	/// <summary>
 	/// ビルドスクリプトを実行する
 	/// </summary>
 	/// <param name="rootPath">Root path.</param>
-	private static void RunBuildScript(string rootPath, string platformPath) {
-		var appName = PlayerSettings.productName;
+	private static void RunBuildScript(string rootPath, string platformPath, string args) {
 		var commonScriptPath = rootPath + "/Script";
 		var platformScriptPath = platformPath + "/Script";
 		var commands = new string[] {
 			"cd " + platformScriptPath,
-			"sh build.sh " + platformPath + " " + appName,
+			"sh build.sh" + args,
 		};
 
 		// Terminalを起動してシェルスクリプトを実行する
@@ -70,5 +82,13 @@ public class AppPostProcessBuild {
 		}
 		cmdString += "'";
 		return cmdString;
+	}
+
+	public static string CatArguments(Dictionary<string, string> args) {
+		string argsString = "";
+		foreach (string key in args.Keys) {
+			argsString += " " + key + "=" + args [key];
+		}
+		return argsString;
 	}
 }

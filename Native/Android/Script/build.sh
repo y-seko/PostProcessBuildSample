@@ -1,9 +1,16 @@
 #!/bin/sh
-ROOT_PATH=$1
-APP_NAME=$2
+for arg in $@
+do
+	if [[ "$arg" =~ ^rootPath= ]]; then
+		rootPath=`echo "$arg" | sed 's/rootPath=//'`
+	fi
+	if [[ "$arg" =~ ^appName= ]]; then
+		appName=`echo "$arg" | sed 's/appName=//'`
+	fi
+done
 
-MANIFEST_PATH=$ROOT_PATH"/Export/"$APP_NAME
-GRADLE_PATH=$ROOT_PATH"/App"
+MANIFEST_PATH=$rootPath"/Export/"$appName
+GRADLE_PATH=$rootPath"/App"
 
 # AndroidManifest.xmlを修正する
 cd $MANIFEST_PATH

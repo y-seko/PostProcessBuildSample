@@ -1,9 +1,25 @@
 #!/bin/sh
-ROOT_PATH=$1
-APP_NAME=$2
+for arg in $@
+do
+	if [[ "$arg" =~ ^rootPath= ]]; then
+		rootPath=`echo "$arg" | sed 's/rootPath=//'`
+	fi
+	if [[ "$arg" =~ ^appName= ]]; then
+		appName=`echo "$arg" | sed 's/appName=//'`
+	fi
+	if [[ "$arg" =~ ^codeSignIdentity= ]]; then
+		codeSignIdentity=`echo "$arg" | sed 's/codeSignIdentity=//'`
+	fi
+	if [[ "$arg" =~ ^profileId= ]]; then
+		profileId=`echo "$arg" | sed 's/profileId=//'`
+	fi
+	if [[ "$arg" =~ ^profileName= ]]; then
+		profileName=`echo "$arg" | sed 's/profileName=//'`
+	fi
+done
 
-PROJECT_PATH=$ROOT_PATH"/Export/"$APP_NAME
-OUTPUT_PATH=$ROOT_PATH"/Output"
+PROJECT_PATH=$rootPath"/Export/"$appName
+OUTPUT_PATH=$rootPath"/Output"
 ARCHIVE_PATH=$OUTPUT_PATH"/xcarchive"
 IPA_PATH=$OUTPUT_PATH"/ipa"
 
@@ -20,5 +36,5 @@ mkdir $IPA_PATH
 # build
 cd $PROJECT_PATH
 xcodebuild clean -project Unity-iPhone.xcodeproj
-xcodebuild -scheme Unity-iPhone archive -archivePath $ARCHIVE_PATH"/Unity-iPhone" CODE_SIGN_IDENTITY='XXXXXXXXXXXXXXXXX' PROVISIONING_PROFILE='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
-xcodebuild -exportArchive -exportFormat ipa -archivePath $ARCHIVE_PATH"/Unity-iPhone.xcarchive" -exportPath $IPA_PATH"/Unity-iPhone.ipa" -exportProvisioningProfile "xxxxxxxxxxxxxxxxx"
+xcodebuild -scheme Unity-iPhone archive -archivePath $ARCHIVE_PATH"/Unity-iPhone" CODE_SIGN_IDENTITY=$codeSignIdentity PROVISIONING_PROFILE=$profileId
+xcodebuild -exportArchive -exportFormat ipa -archivePath $ARCHIVE_PATH"/Unity-iPhone.xcarchive" -exportPath $IPA_PATH"/Unity-iPhone.ipa" -exportProvisioningProfile $profileName
