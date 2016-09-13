@@ -55,3 +55,10 @@ Android/App/build
 
 Android/App/app/*
 !Android/App/app/build.gradle
+
+# ========= #
+# for Xcode #
+# ========= #
+iOS/Export/*
+!iOS/Export/_emptyfolder.txt
+iOS/Output
